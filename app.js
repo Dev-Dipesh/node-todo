@@ -1,4 +1,5 @@
 var express = require('express');
+var mongoose = require('mongoose');
 var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
@@ -9,6 +10,9 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+
+// Mongo Congiguration
+mongoose.connect('mongodb://node:node@mongo.onmodulus.net:27017/uwO3mypu');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
