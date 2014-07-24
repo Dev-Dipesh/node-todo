@@ -27,10 +27,61 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/api', api);
 
 // Todo Model
 var Todo = mongoose.model('Todo', {
     text:String
+});
+
+// Get all todos
+app.get('/api/todos', function(req, res) {
+    // Use mongoose to get all todos in the database
+    Todo.find(function(err, todos) {
+        // If there is an error in retrieving, then handle it.
+        if(err) {
+            res.send(err);
+        }
+        // Pass data to frontend in json
+        res.json(todos);
+    });
+});
+
+// Create todos and send back all todos after creation
+app.post('/api/todos', function(req, res) {
+    // Create a todo, information comes from AJAX call from angular
+    Todo.create({
+        text : req.body.text,
+        done : false
+    }, function(err, todos) {
+        if (err)
+            res.send(err);
+
+        // get and return all todos after you created
+        Todo.find(function(err, todos) {
+            if (err) {
+                res.send(err);
+            }
+            res.json(todos);
+        });
+    });
+});
+
+// Delete specific todo
+app.delete('/api/todos/:todos_id', function(req, res) {
+    Todo.remove({
+        _id : req.params.todos_id
+    }, function(err, todo) {
+        if(err) {
+            res.send(err);
+        }
+        Todo.find(function(err, todos) {
+            if (err) {
+                res.send(err);
+            }
+            res.json(todos);
+        });
+    });
 });
 
 /// catch 404 and forward to error handler
