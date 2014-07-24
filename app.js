@@ -13,7 +13,7 @@ var api = require('./routes/api');
 var app = express();
 
 // Mongo Congiguration
-mongoose.connect('mongodb://node:node@mongo.onmodulus.net:27017/uwO3mypu');
+mongoose.connect('mongodb://nodetodo:todopass@novus.modulusmongo.net:27017/azUx6iza');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
